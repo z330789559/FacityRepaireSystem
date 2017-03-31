@@ -4,17 +4,20 @@
 
 
 import React, { Component } from 'react'
-import {View,Platform,Text} from 'react-native'
+import {View,Platform,Text,
+    NativeAppEventEmitter} from 'react-native'
 import App from './app'
 import Loading from './component/Loading'
 import Config from './config'
 import WrapperOperator from './component/WrapperOperator'
 import Wrapper from './component/Wrapper'
 import  LoginActivity from './pages/Login/LoginActivity'
+import JPushModule from 'jpush-react-native';
 export default class rootApp extends  Component {
 
     constructor(props) {
         super(props)
+        this.subscription=null
         this.state = {
             _component: {},
             loginStatu: false
@@ -23,8 +26,16 @@ export default class rootApp extends  Component {
 
     componentWillMount() {
         this._getLogin();
-    }
+       this.subscription = NativeAppEventEmitter.addListener(
+            'networkDidReceiveMessage',
+            (message) => console.log(message)
+        );
 
+    }
+    componentWillUnmount(){
+        if(this.subscription)this.subscription.remove();
+
+    }
     render() {
         let {navigation}=this.props;
         return this.state.loginStatu?(

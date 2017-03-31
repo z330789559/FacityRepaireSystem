@@ -96,11 +96,6 @@ export default class UpPullRefresh extends Component {
     _getRecord(type, refresh) {
         if (type == 1) {
             this.page = 1;
-            if (refresh == "refresh") {
-                this.setSate({
-                    isfresh:true
-                })
-            }
         }
         else {
             if (this.state.isLoadingMore == true) {
@@ -143,14 +138,14 @@ export default class UpPullRefresh extends Component {
         return(
             <ListView
                 ref={(ref) => this.tbv = ref}
-                refreshControl={
-              <RefreshControl
-               refreshing={this.state.isRefreshing}
-                onRefresh={this._onLoadMore}
-                colors={['#ff0000', '#00ff00','#0000ff','#3ad564']}
-               progressBackgroundColor="#ffffff"
-              />
-            }
+            //     refreshControl={
+            //   <RefreshControl
+            //    refreshing={this.state.isRefreshing}
+            //     onRefresh={this._onLoadMore}
+            //     colors={['#ff0000', '#00ff00','#0000ff','#3ad564']}
+            //    progressBackgroundColor="#ffffff"
+            //   />
+            // }
 
             renderScrollComponent={(props) => <PullRefreshScrollView  onRefresh={(PullRefresh)=>this._onRefresh(PullRefresh)} {...props}     />}
                 dataSource={this.state.dataSource.cloneWithRows(this.state.theNetworkData)}

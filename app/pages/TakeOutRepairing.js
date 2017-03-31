@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Config from '../config'
 
 import ItemContent from "../component/ItemContent"
-export default class TakeOutRepairable extends Component {
+export default class TakeOutRepairing extends Component {
   constructor(props) {
     super(props)
   }

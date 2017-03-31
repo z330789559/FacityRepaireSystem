@@ -32,7 +32,7 @@ import  Config from '../config'
 import Icon from 'react-native-vector-icons/Ionicons'
 let {width, height} = Dimensions.get('window')
 
-export default class My extends Component {
+export default class MyHomeRepaire extends Component {
   constructor(props){
       super(props)
       this.state = {

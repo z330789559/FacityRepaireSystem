@@ -15,18 +15,14 @@ import {
     TouchableNativeFeedback
 } from 'react-native'
 
-import px2dp from '../util'
-import data from '../data'
+
 import ItemList from './ItemList'
+import  ItemContentPull from "./ItemContentPull"
 
-import Config from '../config'
-
-import UpPullRefresh from "../component/UpPullRefresh"
-export default class HomeRepairePage extends Component {
+export default class ItemContent extends Component {
     constructor(props){
         super(props)
         this.pageIndex=0;
-        this.moredata=true;
        
         this.state = {
             data: [],
@@ -34,7 +30,7 @@ export default class HomeRepairePage extends Component {
         }
     }
     componentDidMount(){
-        this.tbv._onRefresh(1, null);
+        // this.tbv.loadMore(1, null);
     }
     // _onRefresh=()=>{
     //   var _this=this;
@@ -58,7 +54,6 @@ export default class HomeRepairePage extends Component {
     // }
     _renderRow=(rowData, sectionId, rowId)=>{
         const { isOperator,switchPage,navigator }=this.props
-        
         return(
             <View stye={{flex:1}}>
                 <ItemList key={rowId} {...rowData} navigator={navigator} isOperator={isOperator} switchPage={switchPage} />
@@ -69,12 +64,11 @@ export default class HomeRepairePage extends Component {
         const {url,title}=this.props
         return (
             <View style={{backgroundColor: '#eee', flex: 1}}>
-                <Text style={{textAlign: "center", color: "#999", fontSize: px2dp(12), paddingTop: 20}}>{title}</Text>
-                <UpPullRefresh
+                <ItemContentPull
                     ref={(e)=>this.tbv = e}
-                    defaultPageItem={10}
                     renderRowCallback={(rowData, sectionId, rowId)=>this._renderRow(rowData, sectionId, rowId)}
                     networkParams={[url]}
+                    title={title}
                 />
             </View>
 
