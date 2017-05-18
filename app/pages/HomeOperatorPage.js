@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import Config from '../config'
-
+import NavBar from '../component/NavBar'
 import ItemContent from "../component/ItemContent"
+import {
+    View
+} from 'react-native';
 export default class HomeOperatorPage extends Component {
   constructor(props) {
     super(props)
@@ -9,11 +12,15 @@ export default class HomeOperatorPage extends Component {
   render(){
 
     const  url=Config.domain+"/order/myorder"
-    const title="我提报的维修"
-    const  isOperator=true
-    const {navigator}=this.props
+    const title="我提报的维修";
+    const  isOperator=true;
+
     return (
-        <ItemContent url={url} title={title} isOperator={isOperator} navigator={navigator} />
+        <View style={{flex: 1, backgroundColor: "#fff"}}>
+          <NavBar
+              title="我提报的维修"/>
+        <ItemContent url={url} title={title} isOperator={isOperator}  {...this.props} />
+          </View>
     )
   }
 }

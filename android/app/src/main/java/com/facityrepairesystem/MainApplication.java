@@ -3,6 +3,7 @@ package com.facityrepairesystem;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import cn.jpush.reactnativejpush.JPushPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -25,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTCameraPackage(),
             new JPushPackage(SHUTDOWN_TOAST,SHUTDOWN_LOG),
             new VectorIconsPackage()
       );

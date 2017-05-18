@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-camera')
     compile project(':jcore-react-native')
     compile project(':jpush-react-native')
     compile project(':react-native-vector-icons')

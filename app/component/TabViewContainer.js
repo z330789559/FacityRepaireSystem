@@ -23,6 +23,7 @@ export default class TabViewContainer extends Component {
     super(props)
       const { tabNames }=this.props;
       this.tabNames = tabNames;
+       this.tabs=[]
        this.state = {
         currentTab: tabNames[0][2],
         hideTabBar: false
@@ -40,6 +41,7 @@ export default class TabViewContainer extends Component {
   }
  selectTabs=(index)=>{
      console.log("跳转到tab"+index);
+
      this.setState({ currentTab: this.tabNames[index][2] })
  }
 
@@ -56,7 +58,7 @@ export default class TabViewContainer extends Component {
               return (
                 <TabNavigator.Item
                     key={i}
-                    tabStyle={styles.tabStyle}
+                    // tabStyle={styles.tabStyle}
                     title={item[0]}
                     selected={this.state.currentTab === item[2]}
                     selectedTitleStyle={{color: "#3496f0"}}

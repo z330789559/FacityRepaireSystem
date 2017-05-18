@@ -6,7 +6,8 @@ import {
     View,
     ActivityIndicator,
     ListView,
-    Animated
+    Animated,
+    AppState
 } from 'react-native';
 
 import {PullList} from 'react-native-pull';
@@ -27,6 +28,7 @@ export default class extends Component {
             dataSource: ds,
             theNetworkData: [],
             isLoadingMore: false,
+            pageShow:false
         };
         this.renderRowCallback=this.props.renderRowCallback
         this.renderHeader = this.renderHeader.bind(this);
@@ -36,16 +38,33 @@ export default class extends Component {
         this.topIndicatorRender = this.topIndicatorRender.bind(this);
         // this.loadMore();
     }
+    componentDidMount(){
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
+    handleAppStateChange=(appState)=>{
+        if( appState=='active'){
+            this.onPullRelease()
+        }
+
+    }
 
     onPullRelease=(resolve)=>{
      var _this=this;
         NetUitl.getJson(this.networkParams[0],{pageIndex:1}, (responseJson)=> {
-
-            resolve();
+            resolve&&resolve()
+            console.log("下载订单详情")
             if (responseJson.orders.length > 0) {
                 var temp = responseJson.orders;
                 temp.push("");
-                _this.setState({theNetworkData: temp});
+                _this.setState({
+                    theNetworkData: temp,
+                    isLoadingMore:false
+                });
+            }else {
+                _this.setState({
+                    theNetworkData: [],
+                    isLoadingMore:false
+                });
             }
         })
     }
@@ -69,11 +88,11 @@ export default class extends Component {
             }
         }, 500);
         return (
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60}}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 50}}>
                 <ActivityIndicator size="small" color="gray" />
-                <Text ref={(c) => {this.txtPulling = c;}}>当前PullList状态: pulling...</Text>
-                <Text ref={(c) => {this.txtPullok = c;}}>当前PullList状态: pullok......</Text>
-                <Text ref={(c) => {this.txtPullrelease = c;}}>当前PullList状态: pullrelease......</Text>
+                <Text ref={(c) => {this.txtPulling = c;}}>放开刷新...</Text>
+                <Text ref={(c) => {this.txtPullok = c;}}>刷新进行中......</Text>
+                <Text ref={(c) => {this.txtPullrelease = c;}}>刷新结束......</Text>
             </View>
         );
     }
@@ -83,14 +102,15 @@ export default class extends Component {
             <View style={styles.container}>
                 <PullList
                     style={{}}
-                    onPullRelease={this.onPullRelease} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
-                    renderHeader={this.renderHeader}
+                    onPullRelease={this.onPullRelease} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={50}
+                    // renderHeader={this.renderHeader}
                     dataSource={this.state.dataSource.cloneWithRows(this.state.theNetworkData)}
                     pageSize={10}
                     initialListSize={10}
                     renderRow={this._renderRow}
+                    enableEmptySections = {true}
                     onEndReached={this.loadMore}
-                    onEndReachedThreshold={60}
+                    onEndReachedThreshold={50}
                     renderFooter={this.renderFooter}
                 />
             </View>
@@ -100,9 +120,10 @@ export default class extends Component {
     renderHeader=()=>{
         const {title}=this.props
         return (
-            <View style={{height: 50, backgroundColor: '#eeeeee', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={{fontWeight: 'bold'}}>{title}</Text>
-            </View>
+            <Text></Text>
+            // <View style={{height: 50, backgroundColor: 'green',alignItems: 'center', justifyContent: 'center'}}>
+            //     <Text style={{fontWeight: 'bold', color:"#fff",}}>{title}</Text>
+            // </View>
         );
     }
 
@@ -115,20 +136,23 @@ export default class extends Component {
     }
 
     renderFooter=()=>{
-        if(!this.canLoadMore) {
-            return null;
+        if(!this.state.isLoadingMore) {
+            return (
+                <View style={{height: 50}}>
+                    <Text style={{textAlign:"center",marginVertical:10}}>上啦加载更多</Text>
+                </View>
+            );
         }
         return (
-            <View style={{height: 100}}>
+            <View style={{height: 50}}>
                 <ActivityIndicator />
             </View>
         );
     }
-    _fetchData=(type,responseJson)=>{
+    _fetchData=(responseJson)=>{
 
 
         this.setState({isLoadingMore: false});
-
         if (responseJson != undefined && responseJson != null) {
 
             if (responseJson.orders.length > 0) {
@@ -153,7 +177,7 @@ export default class extends Component {
             this.page --;
         }
     }
-    loadMore=(type)=>{
+    loadMore=()=>{
 
             if (this.state.isLoadingMore == true || this.canLoadMore==false) {
                 return;
@@ -163,7 +187,7 @@ export default class extends Component {
 
         var body = null;
 
-        NetUitl.getJson(this.networkParams[0],{pageIndex:this.page},this._fetchData.bind(this,type))
+        NetUitl.getJson(this.networkParams[0],{pageIndex:this.page},this._fetchData.bind(this))
     }
 
 }
@@ -172,6 +196,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#ccc',
+        justifyContent:"flex-start"
     },
 });

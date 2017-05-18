@@ -14,13 +14,14 @@ export default class Navigation extends Component{
       
     render(){
                let {_component}=this.props;
-        
+
+
         return Platform.OS == "ios"?(
           <Navigator
             initialRoute={{component:_component}}
             configureScene={() => Navigator.SceneConfigs.FloatFromRight}
             renderScene={(route, navigator) => {
-                  return <route.component  {...this.params}  navigator={navigator}/>
+                  return <route.component   {...this.params} {...this.props} navigator={navigator}/>
                 }
             }
           />
@@ -34,7 +35,7 @@ export default class Navigation extends Component{
               initialRoute={{component:_component}}
               configureScene={() => Navigator.SceneConfigs.FloatFromRight}
               renderScene={(route, navigator) => {
-                    return <route.component  {...route.params}  navigator={navigator}/>
+                    return <route.component  {...route.params} {...this.props} navigator={navigator}/>
                   }
               }
             />

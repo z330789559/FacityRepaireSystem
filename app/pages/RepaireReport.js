@@ -12,14 +12,16 @@ import {
     TextInput,
     TouchableOpacity,
     ScrollView,
-    Dimensions
+    Dimensions,
+    DeviceEventEmitter
 } from "react-native";
 import EditView from "../component/EditView";
 import Config from "../config"
 import NetUitl from '../util/NetUtil';
 import LoginButton from "../component/LoginButton";
 import px2dp from '../util'
-const {width,height}=Dimensions
+import Wrapper from '../component/Wrapper'
+const {width,height}=Dimensions.get("window")
 export default class RepaireReport extends Component {
     constructor(props) {
         super(props)
@@ -39,20 +41,28 @@ export default class RepaireReport extends Component {
             if(data && data.status=="success"){
                 if(navigator){
                     navigator.pop();
+                    DeviceEventEmitter.emit("reportover")
                 }
             }
         })
+    }
+    backHome=()=>{
+        const {navigator}=this.props
+        navigator.pop();
     }
     render = ()=> {
         return (
             <View style={RepaireReportStyles.repaireReportView}>
                 <ScrollView>
-                <View style={{marginTop:px2dp(200)}}>
+                <View style={{marginTop:px2dp(200),flexDirection:'column',flex:1,justifyContent:"center",alignItems:"center"}}>
                     <View style={RepaireReportStyles.groupStyles}>
               <EditView name="输入维修方式" onChangeText={(text) => {
                  this.repaireMethod = text;
         }}/>
                     <LoginButton name='提交' onPressCallback={this.onPressCallback}/>
+                        <TouchableOpacity onPress = {this.backHome}>
+                            <Text style={{color:"#4A90E2",textAlign:'center',marginTop:10}} >返回首页</Text>
+                        </TouchableOpacity>
 </View>
                 </View>
 </ScrollView>

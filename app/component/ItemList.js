@@ -12,7 +12,8 @@ import {
     AlertIOS,
     RefreshControl,
     TouchableHighlight,
-    TouchableNativeFeedback
+    TouchableNativeFeedback,
+    DeviceEventEmitter
 } from 'react-native'
 
 import px2dp from '../util'
@@ -24,7 +25,11 @@ import Comment from '../pages/Comment'
 export default class ItemList extends Component {
     constructor(props){
         super(props)
-        this.selectTabs=props.selectTabs
+        this.selectTabs=this.props.selectTabs
+        this.refreshCurrentPage=this.props.refreshCurrentPage
+        this.state={
+            scoreStatus:"1"
+        }
     }
     static propTypes = {
         id:PropTypes.string,
@@ -38,6 +43,19 @@ export default class ItemList extends Component {
         operator: PropTypes.any,
         repaireMethod:PropTypes.string
     }
+    componentDidMount(){
+        this.getScoreStatu();
+        this.refreshCurrentPage()
+    }
+    getScoreStatu=()=>{
+        var _this=this;
+        NetUtil.getJson(Config.domain+"/scorestatus",{},(data)=>{
+            _this.setState({
+                scoreStatus:data.scoreStatus
+            })
+
+        })
+    }
     render(){
         const { title,  stateCode, create_at,update_at,report_at, reasonCode, repairor,operator,repaireMethod } = this.props
        var contentColor="#666"
@@ -46,7 +64,8 @@ export default class ItemList extends Component {
                 <View style={styles.info}>
                     <View style={{paddingBottom: 8,borderBottomWidth: 1,borderBottomColor: "#f9f9f9",marginTop:10}}>
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-                        <Text style={{fontSize: px2dp(14), color:"#333"}}>组别:{operator.group}-----故障代码:{title}</Text>
+                        <Text style={{fontSize: px2dp(14), color:"#333"}}>机器编号:{title}</Text>
+                        <Text style={{fontSize: px2dp(14), color:"#333"}}>组别:{operator.group}</Text>
                         {this.renderReportbtn()}
                     </View>
                         </View>
@@ -68,15 +87,14 @@ export default class ItemList extends Component {
             Platform.OS === 'ios'?(
                 <TouchableHighlight style={{marginTop: 10}} onPress={() => {}}>{render}</TouchableHighlight>
             ):(
-                <View style={{marginTop: 10}}><TouchableNativeFeedback onPress={() => {}}>{render}</TouchableNativeFeedback></View>
+                <View ><TouchableNativeFeedback onPress={() => {}}>{render}</TouchableNativeFeedback></View>
             )
         )
     }
     getCommentView=()=>{
         const {report_at,repairor,score} =this.props
-        console.log(report_at)
-        if(report_at){
-        const commentScore=score<6?score+"／5":"未评价"
+        if(report_at && this.state.scoreStatus=="2"){
+        const commentScore=score!=0?score+"／10":"未评价"
 
         return <View style={{paddingBottom: 8,borderBottomWidth: 1,borderBottomColor: "#f9f9f9",marginTop:10}}>
 
@@ -87,14 +105,16 @@ export default class ItemList extends Component {
         </View>
             </View>
         }else{
-            return <Text></Text>
+            return <View style={{flex:1}}><Text></Text></View>
         }
 
     }
     _redirectToPageg=(index,data)=>{
         const {switchPage}=this.props
         if(switchPage&& data &&data.status=="success"){
+            this.refreshCurrentPage()
             switchPage(index)
+            DeviceEventEmitter.emit("reportover")
         }else{
             alert(data.error)
         }
@@ -115,16 +135,17 @@ export default class ItemList extends Component {
                 <Text style={{fontSize: px2dp(13), color:"#333",marginTop: 5}}>{"维修人员:"}{repairor}</Text>
             </View>
         }else{
-            return <Text></Text>
+            return <View style={{flex:1}}><Text></Text></View>
         }
     }
     _updateReport=(id)=>{
-        const {navigator}=this.props
+        const {navigator,refreshCurrentPage}=this.props
         navigator.push({
             name:"repaireReport",
             component:RepaireReport,
             params:{
-                _id:id
+                _id:id,
+                refreshCurrentPage:refreshCurrentPage
             }
         })
        }
@@ -144,25 +165,25 @@ export default class ItemList extends Component {
         if(isOperator){
             if(stateCode =="维修完成") {
                 return <TouchableHighlight onPress={()=>{this._updateComment(_id)}}>
-                    <Text style={{fontSize: px2dp(12), color:"#333",marginTop: 5,fontWeight:'600',textDecorationLine:"underline"}}>{"发表评价"}</Text>
+                    <Text style={styles.btn_style}>{"发表评价"}</Text>
                 </TouchableHighlight>
             }else{
-                return <Text style={{fontSize: px2dp(14), color:"#333"}}>{stateCode}</Text>
+                return <Text style={{fontSize: px2dp(14), color:"#ccc"}}>{stateCode}</Text>
             }
         }else{
             if(stateCode =="待维修"){
                 return  <TouchableHighlight onPress={()=>{this._grapOrder(_id)}}>
-                    <Text style={{fontSize: px2dp(12), color:"#333",marginTop: 5,fontWeight:'600',textDecorationLine:"underline"}}>{"抢单维修"}</Text>
+                    <Text style={styles.btn_style}>{"抢单维修"}</Text>
                 </TouchableHighlight>
             }else if(stateCode =="维修中"){
                 return  <TouchableHighlight onPress={()=>{this._updateReport(_id)}}>
-                    <Text style={{fontSize: px2dp(12), color:"#333",marginTop: 5,fontWeight:'600',textDecorationLine:"underline"}}>{"提交维修报表"}</Text>
+                    <Text style={styles.btn_style}>{"提交维修报表"}</Text>
                 </TouchableHighlight>
             }else if(stateCode =="维修完成"){
-                return <Text style={{fontSize: px2dp(14), color:"#333"}}>{"等待评价"}</Text>
+                return <Text style={{fontSize: px2dp(14), color:"#ccc"}}>{"等待评价"}</Text>
 
             }else if(stateCode =="评价完成"){
-                return <Text style={{fontSize: px2dp(12), color:"#333",marginTop: 5,fontWeight:'600',textDecorationLine:"underline"}}>{"已结单"}</Text>
+                return <Text style={styles.btn_style}>{"已结单"}</Text>
 
             }
         }
@@ -195,5 +216,14 @@ const styles = StyleSheet.create({
     info: {
         paddingRight: 16,
         flex: 1
+    },
+    btn_style:{
+        fontSize: px2dp(14),
+        color:"#fff",
+        padding:px2dp(10),
+        marginTop: 5,
+        fontWeight:'600',
+        backgroundColor:"green",
+        borderRadius:px2dp(10)
     }
 })

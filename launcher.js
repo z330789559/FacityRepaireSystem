@@ -8,9 +8,12 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry
+  AppRegistry,
+    DeviceEventEmitter
 } from 'react-native';
 
-import rootApp from './app/root';
+import RootApp from './app/root';
+import GrapOrder from './app/pages/GrapOrder'
 
-AppRegistry.registerComponent('FacityRepaireSystem', () => rootApp);
+AppRegistry.registerComponent('FacityRepaireSystem', () => RootApp);
+AppRegistry.registerComponent('GrapOderActivity', () => GrapOrder);

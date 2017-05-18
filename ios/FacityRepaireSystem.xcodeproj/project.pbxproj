@@ -58,6 +58,7 @@
 		45BAAC74D54846B2BE96F66A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0689708402344454A9A1BDDC /* UIKit.framework */; };
 		9817CF7B946C4104ABFEBC40 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B50C7D8F998A43C5B4E463F4 /* libresolv.tbd */; };
 		AAB7EB2A62214F1780A7B92D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A732D9A1AE91401C99AEDE90 /* CoreGraphics.framework */; };
+		933398CF9B24489792E118FB /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0655DE45B02F4DD591D9C7A7 /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,6 +303,8 @@
 		0689708402344454A9A1BDDC /* UIKit.framework */ = {isa = PBXFileReference; name = "UIKit.framework"; path = "System/Library/Frameworks/UIKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		B50C7D8F998A43C5B4E463F4 /* libresolv.tbd */ = {isa = PBXFileReference; name = "libresolv.tbd"; path = "usr/lib/libresolv.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		A732D9A1AE91401C99AEDE90 /* CoreGraphics.framework */ = {isa = PBXFileReference; name = "CoreGraphics.framework"; path = "System/Library/Frameworks/CoreGraphics.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		1389F16D032E4DA498082FC7 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		0655DE45B02F4DD591D9C7A7 /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +344,7 @@
 				45BAAC74D54846B2BE96F66A /* UIKit.framework in Frameworks */,
 				9817CF7B946C4104ABFEBC40 /* libresolv.tbd in Frameworks */,
 				AAB7EB2A62214F1780A7B92D /* CoreGraphics.framework in Frameworks */,
+				933398CF9B24489792E118FB /* libRCTCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +513,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				37165D908ED4475BA0203EB6 /* RNVectorIcons.xcodeproj */,
 				D480AD5D0BD6482B9A4746AD /* RCTJPushModule.xcodeproj */,
+				1389F16D032E4DA498082FC7 /* RCTCamera.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1087,11 +1092,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Debug;
@@ -1114,11 +1121,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Release;
@@ -1142,6 +1151,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Debug;
@@ -1164,6 +1174,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Release;
@@ -1195,11 +1206,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Debug;
@@ -1231,11 +1244,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 			};
 			name = Release;
@@ -1262,6 +1277,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1286,6 +1302,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

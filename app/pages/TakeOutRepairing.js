@@ -11,10 +11,8 @@ export default class TakeOutRepairing extends Component {
     const  url=Config.domain+"/order/repairingorder"
     const title="我正在维修的单子"
     const  isOperator=false
-    const {navigator}=this.props
-    const {switchPage}=this.props
     return (
-        <ItemContent url={url} title={title} isOperator={isOperator} navigator={navigator} switchPage={switchPage}/>
+        <ItemContent  {...this.props} url={url} title={title} isOperator={isOperator}  />
     )
   }
 }

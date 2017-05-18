@@ -12,13 +12,14 @@ import {
     AlertIOS,
     RefreshControl,
     TouchableHighlight,
-    TouchableNativeFeedback
+    TouchableNativeFeedback,
+    DeviceEventEmitter
 } from 'react-native'
 
 
 import ItemList from './ItemList'
 import  ItemContentPull from "./ItemContentPull"
-
+import px2dp from '../util'
 export default class ItemContent extends Component {
     constructor(props){
         super(props)
@@ -30,8 +31,14 @@ export default class ItemContent extends Component {
         }
     }
     componentDidMount(){
-        // this.tbv.loadMore(1, null);
-    }
+        DeviceEventEmitter.addListener("reportover",()=>{
+            this._refreshCurrentPage();
+        })
+        DeviceEventEmitter.addListener("createorder",()=>{
+            this._refreshCurrentPage();
+        })
+   }
+
     // _onRefresh=()=>{
     //   var _this=this;
     //    if(this.moredata){
@@ -52,18 +59,23 @@ export default class ItemContent extends Component {
     //   })
     //
     // }
+    _refreshCurrentPage=()=>{
+        this.tbv.onPullRelease()
+     }
+
     _renderRow=(rowData, sectionId, rowId)=>{
         const { isOperator,switchPage,navigator }=this.props
         return(
             <View stye={{flex:1}}>
-                <ItemList key={rowId} {...rowData} navigator={navigator} isOperator={isOperator} switchPage={switchPage} />
+                <ItemList key={rowId} {...rowData} navigator={navigator} isOperator={isOperator} switchPage={switchPage}  refreshCurrentPage={this._refreshCurrentPage} />
             </View>
         );
     }
     render(){
-        const {url,title}=this.props
+        const {url,title,orderid,result}=this.props
         return (
-            <View style={{backgroundColor: '#eee', flex: 1}}>
+            <View style={{backgroundColor: '#fff', flex: 1,justifyContent:"flex-start"}}>
+                {!orderid?<Text></Text>:result?<Text style={{fontSize:px2dp(30),color:"green",textAlign:"center"}} >抢单成功</Text>:<Text style={{fontSize:px2dp(30),color:"red",textAlign:"center"}} >抢单失败</Text>}
                 <ItemContentPull
                     ref={(e)=>this.tbv = e}
                     renderRowCallback={(rowData, sectionId, rowId)=>this._renderRow(rowData, sectionId, rowId)}
@@ -83,7 +95,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
-        paddingTop: 16
     },
     logo: {
         width: 35,

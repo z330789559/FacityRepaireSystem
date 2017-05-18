@@ -23,6 +23,8 @@ import Register from '../../pages/Login/Register'
 import Config from '../../config'
 import px2dp from '../../util/index'
 import Icon from 'react-native-vector-icons/Ionicons'
+import  GrapOrderContent from '../GrapOrderContent'
+import JPushModule from 'jpush-react-native';
 export default class LoginActivity extends Component {
   constructor(props) {
     super(props);
@@ -77,12 +79,16 @@ export default class LoginActivity extends Component {
     };
       let _this=this;
     let url = Config.domain+"/signin";
+      const { navigator,orderid } = this.props;
     NetUitl.postJson(url,formData,(data) => {
               let _wrapper=WrapperOperator;
         console.log("登陆成功"+JSON.stringify(data));
         if(data &&  data.status =="success"){
+            console.log(data.user.account_type=="维修员")
             if(data.user.account_type=="维修员"){
-                _wrapper=Wrapper
+                JPushModule.setAlias(data.user.name,()=>{
+                })
+              _wrapper=orderid?GrapOrderContent:Wrapper;
             }
             console.log("跳转到操作用成功")
             _this.onLoginSuccess(_wrapper);
@@ -96,12 +102,15 @@ export default class LoginActivity extends Component {
 
   //跳转到第二个页面去
     onLoginSuccess=(wrapper)=>{
-     const { navigator } = this.props;
-
+        const { navigator,orderid } = this.props;
+        console.log("跳转的首页"+wrapper)
      if (navigator) {
        navigator.push({
          name : 'wrapper',
-         component : wrapper
+         component : wrapper,
+           params:{
+               orderid:orderid
+           }
        });
      }
    }
