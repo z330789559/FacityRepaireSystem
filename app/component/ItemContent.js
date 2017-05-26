@@ -72,10 +72,10 @@ export default class ItemContent extends Component {
         );
     }
     render(){
-        const {url,title,orderid,result}=this.props
+        const {url,title,orderid,result,isOperator}=this.props
         return (
             <View style={{backgroundColor: '#fff', flex: 1,justifyContent:"flex-start"}}>
-                {!orderid?<Text></Text>:result?<Text style={{fontSize:px2dp(30),color:"green",textAlign:"center"}} >抢单成功</Text>:<Text style={{fontSize:px2dp(30),color:"red",textAlign:"center"}} >抢单失败</Text>}
+                {(!orderid || isOperator)?<Text></Text>:result?<Text style={{fontSize:px2dp(30),color:"green",textAlign:"center"}} >抢单成功</Text>:<Text style={{fontSize:px2dp(30),color:"red",textAlign:"center"}} >抢单失败</Text>}
                 <ItemContentPull
                     ref={(e)=>this.tbv = e}
                     renderRowCallback={(rowData, sectionId, rowId)=>this._renderRow(rowData, sectionId, rowId)}

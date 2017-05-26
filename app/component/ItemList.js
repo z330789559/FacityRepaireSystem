@@ -66,8 +66,10 @@ export default class ItemList extends Component {
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={{fontSize: px2dp(14), color:"#333"}}>机器编号:{title}</Text>
                         <Text style={{fontSize: px2dp(14), color:"#333"}}>组别:{operator.group}</Text>
-                        {this.renderReportbtn()}
                     </View>
+                        <View style={{flexDirection: "row", justifyContent: "flex-end"}}>
+                            {this.renderReportbtn()}
+                            </View>
                         </View>
                     <View style={{paddingBottom: 8,borderBottomWidth: 1,borderBottomColor: "#f9f9f9",marginTop:10}}>
                         <Text style={{fontSize: px2dp(12), color:contentColor,marginTop: 5}}>故障报修时间:{moment(create_at).utcOffset(8).format("YYYY-MM-DD,hh:mm:ss")}</Text>
@@ -220,10 +222,11 @@ const styles = StyleSheet.create({
     btn_style:{
         fontSize: px2dp(14),
         color:"#fff",
-        padding:px2dp(10),
+        padding:px2dp(20),
         marginTop: 5,
         fontWeight:'600',
         backgroundColor:"green",
-        borderRadius:px2dp(10)
+        borderRadius:px2dp(10),
+        paddingHorizontal:px2dp(60)
     }
 })

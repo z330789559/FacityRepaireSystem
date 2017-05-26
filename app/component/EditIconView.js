@@ -29,6 +29,7 @@ export default class EditIconView extends Component {
        <TextInput style={LoginStyles.TextInput}
          placeholder={this.props.name}
                   keyboardType={'default'}
+                  defaultValue={this.state.current}
          onChangeText={
            (text) => {
              this.props.onChangeText(text);
